@@ -6,8 +6,8 @@
 
 ## Get started
 
-1. Run [IdentityServer](/IdentityServer/README.md)
-2. Run [ResourceServer](/ResourceServer/README.md)
+1. Run [IdentityServer](/IdentityServer/)
+2. Run [ResourceServer](/ResourceServer/)
 
 ## Additional information
 
