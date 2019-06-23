@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AspNet.Security.OAuth.Introspection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ResourceServer
 {
@@ -28,6 +23,20 @@ namespace ResourceServer
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAuthentication(OAuthIntrospectionDefaults.AuthenticationScheme)
+                .AddOAuthIntrospection(
+                    options =>
+                    {
+                        // TODO: Use from environment variable. Configuration["IDENTITY_SERVER_URL"]
+                        options.Authority = new Uri("http://127.0.0.1:5000");
+                        // TODO: Use from environment variable. Configuration["CLIENT_ID"]
+                        options.ClientId = "5035f951-f7bb-459d-b196-bb212292bb4d";
+                        // TODO: Use from environment variable. Configuration["CLIENT_SECRET"]
+                        options.ClientSecret = "89e43125-d963-4694-b770-096795a6e1e1";
+                        options.RequireHttpsMetadata = false;
+                    }
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +49,7 @@ namespace ResourceServer
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();
             });
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
