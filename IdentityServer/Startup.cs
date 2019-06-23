@@ -36,6 +36,8 @@ namespace IdentityServer
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseStatusCodePages();
 
             app.UseMvc();
 
